@@ -21,9 +21,16 @@ def randomStochasticMatrix(n: int):
         matrix[i] = matrix[i] / sum(matrix[i])
     return matrix
 
-def printMatrixWithRowSum(matrix):
-    for i in range(len(matrix)):
-        print(matrix[i], sum(matrix[i]))
+def printMatrixWithRowSum(matrix, dec=False, digits=0):
+    for i in matrix:
+        for j in i:
+            if dec:
+                print(float(j), end=" ")
+            elif digits!=0:    
+                print(round(j, dec), end=" ")
+            else:
+                print(j, end=" ")
+        print("\t= ", sum(i))
 
 def matrixInit():
     choice = int(input("""1: Input Matrix\n2: Random Matrix\nSelect a Value: """))
