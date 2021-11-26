@@ -10,7 +10,7 @@ def printMatrixWithRowSum(matrix, dec=False, digits=0):
         for j in i:
             if dec:
                 if digits>=0:
-                    print(round(j, digits), end=" ")
+                    print(round(float(j), digits), end=" ")
                 else:
                     print(float(j), end=" ")
             else:

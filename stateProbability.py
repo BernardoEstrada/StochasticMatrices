@@ -18,7 +18,7 @@ def isRegular(mat):
 
 def checkRegular(mat, limit: int):
     count = 0
-    while not isRegular(mat):
+    while isRegular(mat):
         mat = np.matmul(mat, mat)
         count+=1
         if count > limit:
@@ -37,9 +37,10 @@ def getEqSystem(mat):
     return (mat, b)
 
 def getSteadyState(mat):
-    (mat, b) = getEqSystem(mat)
+    m = mat.copy()
+    (m, b) = getEqSystem(mat)
 
-    return np.linalg.lstsq(mat,b, rcond=None)[0]
+    return np.linalg.lstsq(m,b, rcond=None)[0]
 
 
 if __name__ == "__main__":
