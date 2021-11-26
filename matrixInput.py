@@ -1,5 +1,6 @@
 import numpy as np
 from fractions import Fraction
+import helpers as h
 
 def inputMatrix(rows: int):
     matrix = np.empty((rows, rows), dtype=Fraction)
@@ -21,19 +22,8 @@ def randomStochasticMatrix(n: int):
         matrix[i] = matrix[i] / sum(matrix[i])
     return matrix
 
-def printMatrixWithRowSum(matrix, dec=False, digits=0):
-    for i in matrix:
-        for j in i:
-            if dec:
-                print(float(j), end=" ")
-            elif digits!=0:    
-                print(round(j, dec), end=" ")
-            else:
-                print(j, end=" ")
-        print("\t= ", sum(i))
-
 def matrixInit():
-    choice = int(input("""1: Input Matrix\n2: Random Matrix\nSelect a Value: """))
+    choice = int(input("""1: Input Matrix\n2: Random Matrix\n3: Quit\nSelect a Value: """))
     if choice == 1:
         mat = inputMatrix(int(input("Enter the size of the matrix: ")))
         isStochastic = isStochasticMatrix(mat)
@@ -43,15 +33,23 @@ def matrixInit():
         return (-1 , mat)
     elif choice == 2:
         return (2, randomStochasticMatrix(int(input("Enter the size of the matrix: "))))
+    elif choice == 3:
+        return (3, None)
     return (-1, -1)
 
 def matrixInitUntilValid():
     res = -1
     while res == -1:
-        (res, mat) = matrixInit()
-        if res != -1: break
-        print("Invalid Input\n")
-    return mat
+        try:
+            (res, mat) = matrixInit()
+            if res != -1: break
+            h.printInvalidInput()
+        except:
+            h.printInvalidInput()
+    return res, mat
 
 if(__name__ == '__main__'):
-    printMatrixWithRowSum(matrixInitUntilValid())
+    res, mat = matrixInitUntilValid()
+    print(res)
+    if res != 3:
+        h.printMatrixWithRowSum(mat)
