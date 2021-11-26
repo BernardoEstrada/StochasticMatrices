@@ -2,13 +2,13 @@ from fractions import Fraction
 import numpy as np
 import matrixInput as mi
 
-# mat = mi.matrixInitUntilValid()
-mat = np.array([
-    [.65, .28, .07],
-    [.15, .67, .18],
-    [.12, .36, .52]
-]).squeeze(),
-print(mat)
+mat = mi.matrixInitUntilValid()
+# mat = np.array([
+#     [.65, .28, .07],
+#     [.15, .67, .18],
+#     [.12, .36, .52]
+# ]),
+# print(mat)
 print()
 
 def nSteps(mat, n):
@@ -40,11 +40,11 @@ def getEqSystem(mat):
     return mat
 
 def getSteadyState(mat):
-    mat = np.array(getEqSystem(mat).squeeze())
-    print(type(mat), type(mat[0]), type(mat[0][0]))
-    
-    print(np.zeros(len(mat), dtype=Fraction))
-    mat = np.linalg.solve(mat, np.zeros(len(mat)))
-    return mat
+    mat = np.array(getEqSystem(mat).astype(np.float64))
+    mat = np.vstack([mat, [1]*len(mat)])
+    b = np.array([0]*len(mat))
+    b[len(mat)-1] =  1
 
-mi.printMatrixWithRowSum(getSteadyState(mat), True, 5)
+    return np.linalg.lstsq(mat,b, rcond=None)[0]
+
+print(getSteadyState(mat))
